@@ -1,0 +1,30 @@
+h2 {
+  text-align: center;
+  font-size: 2rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: auto;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input {
+  padding: 5px;
+  font-size: 14px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 8px;
+}
+
+.form-warning {
+  color: rgb(210, 1, 1);
+  margin: 0;
+}
