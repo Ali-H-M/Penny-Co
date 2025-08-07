@@ -28,3 +28,16 @@ button {
   color: rgb(210, 1, 1);
   margin: 0;
 }
+
+.signup-success {
+  text-align: center;
+  color: green;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.signup-error {
+  color: red;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

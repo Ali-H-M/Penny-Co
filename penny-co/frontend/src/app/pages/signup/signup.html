@@ -3,27 +3,36 @@
 <form [formGroup]="signupForm" (ngSubmit)="Submit()">
 
     <label for="username">Username:</label>
-    <input type="text">
+    <input type="text" formControlName="username" />
+    @if (signupForm.get('username')?.invalid && signupForm.get('username')?.touched) {
+    <p class="form-warning">Username is required</p>
+    }
 
     <label for="email">Email: </label>
     <input type="email" formControlName="email" />
-    <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
-        <p class="form-warning">
-            Invalid email
-        </p>
-    </div>
+    @if (signupForm.get('email')?.invalid && signupForm.get('email')?.touched) {
+    <p class="form-warning">Invalid email</p>
+    }
 
     <label for="password">Password: </label>
     <input type="password" formControlName="password" />
-    <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
-        <p class="form-warning">
-            Password must be at least 8 characters
-        </p>
-    </div>
+    @if (isPasswordInvalid) {
+    <p class="form-warning">Invalid password</p>
+    }
 
     <label for="confirmPassword">Confirm Password: </label>
     <input type="password" formControlName="confirmPassword" />
+    @if (passwordsDoNotMatch) {
+    <p class="form-warning">Passwords do not match</p>
+    }
 
-        <button type="submit" [disabled]="signupForm.invalid">Register</button>
-        <button type="button" [routerLink]="['/login']">Log in</button>
+    <button type="submit" [disabled]="signupForm.invalid">Register</button>
+    <button type="button" [routerLink]="['/login']">Log in</button>
+
+    <!-- Give user a feedback to signup status: (success/fail) -->
+    @if (SignupStatusMessage) {
+    <div [ngClass]="{ 'signup-error': SignupError, 'signup-success': !SignupError }">
+        {{ SignupStatusMessage }}
+    </div>
+    }
 </form>

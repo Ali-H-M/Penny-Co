@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -8,23 +8,23 @@ import { User, UserDocument } from './user.schema';
 export class AuthService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async signup(userData: any) {
+  async signup(userData: { username: string; email: string; password: string }) {
     const { username, email, password } = userData;
 
     if (!username || !email || !password) {
-      return { message: 'Missing fields', success: false };
+      throw new BadRequestException('Missing fileds')
     }
 
     // Dont allaw Dublicated username
     const existingUsername = await this.userModel.findOne({ username });
     if (existingUsername) {
-      return { message: 'username already exists', success: false };
+      throw new ConflictException('Username alrady exist')
     }
 
     // Dont allaw Dublicated emails
     const existingEmail = await this.userModel.findOne({ email });
     if (existingEmail) {
-      return { message: 'Email already exists', success: false };
+      throw new ConflictException('email alrady exist')
     }
 
     // Encryp user password to save in the database
@@ -36,11 +36,15 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    await createdUser.save();
+    
+    try {
+      await createdUser.save();
+    } catch (error) {
+      throw new InternalServerErrorException('Error: ', error);
+    }
 
     return {
-      message: 'User registered successfully',
-      success: true,
+      message: 'New user has been registered successfully',
       user: { username, email },
     };
   }
