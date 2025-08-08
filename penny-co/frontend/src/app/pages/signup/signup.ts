@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { environment } from './environment';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-signup',
@@ -19,12 +19,22 @@ import { environment } from './environment';
   styleUrl: './signup.css',
 })
 export class Signup {
-  SignupStatusMessage = '';
-  SignupError = false;
+  SignupStatusMessage = signal('');
+  SignupError = signal(false);
 
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private http = inject(HttpClient);
+
+  get isUsernameInvalid() {
+    const pwd = this.signupForm.get('username');
+    return pwd?.invalid && pwd?.touched;
+  }
+  
+  get isEmailInvalid() {
+    const pwd = this.signupForm.get('email');
+    return pwd?.invalid && pwd?.touched;
+  }
 
   get isPasswordInvalid() {
   const pwd = this.signupForm.get('password');
@@ -64,22 +74,22 @@ export class Signup {
         })
         .subscribe({
           next: () => {
-            this.SignupStatusMessage = 'Signup successful';
-            this.SignupError = false;
+            this.SignupStatusMessage.set('Signup successful');
+            this.SignupError.set(false);
 
             // Redirect user after a delay
-            setTimeout(() => this.router.navigate(['/login']), 2000);
+            setTimeout(() => this.router.navigate(['/signin']), 2000);
           },
           error: (error) => {
             // Show the error message from the backend
-            this.SignupStatusMessage =
-              error?.error?.message || 'Signup failed. Please try again.';
-            this.SignupError = true;
+            this.SignupStatusMessage.set(
+              error?.error?.message || 'Signup failed. Please try again');
+            this.SignupError.set(true);
           },
         });
     } else {
-      this.SignupStatusMessage = 'Invalid input.';
-      this.SignupError = true;
+      this.SignupStatusMessage.set('Invalid input');
+      this.SignupError.set(true);
     }
   }
 }

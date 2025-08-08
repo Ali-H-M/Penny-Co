@@ -1,0 +1,26 @@
+<h2>Sign In</h2>
+
+<form [formGroup]="singinForm" (ngSubmit)="Submit()">
+    <label for="email">Email:</label>
+    <input type="email" formControlName="email" />
+    @if (hasError('email')) {
+    <p class="form-warning">Email must be valid</p>
+    }
+
+    <label for="password">Password:</label>
+    <input type="password" formControlName="password" />
+    <!-- @if (hasError('password')) {
+    <p class="form-warning">Password is required</p>
+    } -->
+
+    @if (SigninStatusMessage()) {
+    <p class="form-success">{{ SigninStatusMessage() }}</p>
+    }
+
+    @if (SigninError()) {
+    <p class="form-error">{{ SigninError() }}</p>
+    }
+
+    <button type="submit" [disabled]="singinForm.invalid">Sign In</button>
+    <button type="button" [routerLink]="['/signup']">Sign Up</button>
+</form>

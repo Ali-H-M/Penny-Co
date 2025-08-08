@@ -4,13 +4,13 @@
 
     <label for="username">Username:</label>
     <input type="text" formControlName="username" />
-    @if (signupForm.get('username')?.invalid && signupForm.get('username')?.touched) {
+    @if (isUsernameInvalid) {
     <p class="form-warning">Username is required</p>
     }
 
     <label for="email">Email: </label>
     <input type="email" formControlName="email" />
-    @if (signupForm.get('email')?.invalid && signupForm.get('email')?.touched) {
+    @if (isEmailInvalid) {
     <p class="form-warning">Invalid email</p>
     }
 
@@ -27,12 +27,12 @@
     }
 
     <button type="submit" [disabled]="signupForm.invalid">Register</button>
-    <button type="button" [routerLink]="['/login']">Log in</button>
+    <button type="button" [routerLink]="['/signin']">Sign In</button>
 
     <!-- Give user a feedback to signup status: (success/fail) -->
-    @if (SignupStatusMessage) {
-    <div [ngClass]="{ 'signup-error': SignupError, 'signup-success': !SignupError }">
-        {{ SignupStatusMessage }}
+    @if (SignupStatusMessage()) {
+    <div [ngClass]="{ 'signup-error': SignupError(), 'signup-success': !SignupError() }">
+        {{ SignupStatusMessage() }}
     </div>
     }
 </form>

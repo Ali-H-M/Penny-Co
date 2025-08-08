@@ -6,6 +6,8 @@ import { User, UserDocument } from './user.schema';
 
 @Injectable()
 export class AuthService {
+
+  // Singup =>
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async signup(userData: { username: string; email: string; password: string }) {
@@ -43,9 +45,23 @@ export class AuthService {
       throw new InternalServerErrorException('Error: ', error);
     }
 
-    return {
-      message: 'New user has been registered successfully',
-      user: { username, email },
+    return { message: 'New user has been registered successfully', user: { username, email },
     };
   }
+  // Sign In =>
+  async signin(body: { email: string; password: string }) {
+    const user = await this.userModel.findOne({ email: body.email });
+    if (!user) {
+      throw new BadRequestException('Invalid email or password');
+      
+    }
+
+    const isPasswordValid = await bcrypt.compare(body.password, user.password);
+    if (!isPasswordValid) {
+      throw new BadRequestException('Invalid email or password');
+    }
+
+    return { message: 'Sing In successful', user: { id: user.id, email: user.email } };
+  }
+
 }
