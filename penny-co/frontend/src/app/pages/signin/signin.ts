@@ -1,57 +1,67 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { environment } from '../../environment';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-signin',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './signin.html',
   styleUrl: './signin.css',
 })
-export class Signin {
-
-  private fb = inject(FormBuilder); // Injecting the FormBuilder 
-  private http = inject(HttpClient);
+export class Signin implements OnInit {
+  private fb = inject(FormBuilder);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
-  // Creat signin form with validators
-  singinForm: FormGroup = this.fb.group({ // initializ a form group
+  signinForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required]
+    password: ['', Validators.required],
   });
 
   SigninStatusMessage = signal('');
   SigninError = signal('');
+  isLoading = signal(false);
 
-  Submit() {
-  if (this.singinForm.valid) {
-
-    const { email, password } = this.singinForm.value;
-
-    // Post to path (localhost:3000) used by the backend
-      this.http.post(`${environment.apiUrl}/auth/signin`, {
-        email, 
-        password,
-      }).subscribe({
-        next: () => {
-          this.SigninStatusMessage.set('Sign In successful');
-          this.SigninError.set('');
-          this.router.navigate(['./dashboard']); // Redirect user to dashboard page
-        },
-        error: (err) => {
-          this.SigninStatusMessage.set('');
-          this.SigninError.set(err.error.message || 'Sign In failed');
-        }
-      });
+  ngOnInit() {
+    // Redirect if already logged in
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/dashboard']);
     }
   }
 
+  Submit() {
+    this.SigninStatusMessage.set('');
+    this.SigninError.set('');
+    
+    if (!this.signinForm.valid) {
+      this.SigninError.set('Please fill in all required fields correctly');
+      return;
+    }
+
+    this.isLoading.set(true);
+    const { email, password } = this.signinForm.value;
+
+    // AuthService handles everything including navigation
+    this.authService.signin(email, password).subscribe({
+      next: (response) => {
+        this.SigninStatusMessage.set('Sign in successful!');
+        this.isLoading.set(false);
+        // Navigation is handled by AuthService
+      },
+      error: (error) => {
+        this.SigninError.set(
+          error.error?.message || 'Incorrect email or password'
+        );
+        this.isLoading.set(false);
+      }
+    });
+  }
+
   hasError(control: string): boolean {
-    const c = this.singinForm.get(control);
+    const c = this.signinForm.get(control);
     return !!(c && c.invalid && c.touched);
   }
 }
