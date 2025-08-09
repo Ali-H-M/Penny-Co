@@ -1,9 +1,73 @@
-.welcome {
-  text-align: center;
-  margin-top: 100px;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  background-color: #26374a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  width: 100%;
+  z-index: 1000;
 }
 
-button {
-  margin: 0 10px;
-  padding: 10px 20px;
+.left-nav {
+  display: flex;
+  align-items: center;
+  margin-left: 7rem;
+}
+
+.logo {
+  height: 40px;
+}
+
+.right-nav {
+  display: flex;
+  gap: 5px;
+  margin-right: 3rem;
+}
+
+.btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 40px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.signin {
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.signup {
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.signin:hover {
+  background-color: #ffb300;
+  color: #1b2535;
+  border-color: #ffb300;
+}
+
+.signup:hover {
+  background-color: #ffb300;
+  color: #1b2535;
+  border-color: #ffb300;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin-top: -72px; /* Compensate for sticky navbar */
+  padding-top: 72px; /* Ensure content starts below navbar */
+}
+
+.content h1 {
+  font-size: 3rem;
+  color: #333;
 }

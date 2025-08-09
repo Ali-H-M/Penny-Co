@@ -1,38 +1,47 @@
-<h2>Sign Up</h2>
+<div class="form-header">
+  <h2>Create an Account</h2>
+</div>
 
 <form [formGroup]="signupForm" (ngSubmit)="Submit()">
+  <label for="username">Username:</label>
+  <input type="text" formControlName="username" />
+  @if (isUsernameInvalid) {
+  <p class="form-warning">Username is required</p>
+  }
 
-    <label for="username">Username:</label>
-    <input type="text" formControlName="username" />
-    @if (isUsernameInvalid) {
-    <p class="form-warning">Username is required</p>
-    }
+  <label for="email">Email: </label>
+  <input type="email" formControlName="email" />
+  @if (isEmailInvalid) {
+  <p class="form-warning">Invalid email</p>
+  }
 
-    <label for="email">Email: </label>
-    <input type="email" formControlName="email" />
-    @if (isEmailInvalid) {
-    <p class="form-warning">Invalid email</p>
-    }
+  <label for="password">Password: </label>
+  <input type="password" formControlName="password" />
+  @if (isPasswordInvalid) {
+  <p class="form-warning">Invalid password</p>
+  }
 
-    <label for="password">Password: </label>
-    <input type="password" formControlName="password" />
-    @if (isPasswordInvalid) {
-    <p class="form-warning">Invalid password</p>
-    }
+  <label for="confirmPassword">Confirm Password: </label>
+  <input type="password" formControlName="confirmPassword" />
+  @if (passwordsDoNotMatch) {
+  <p class="form-warning">Passwords do not match</p>
+  }
 
-    <label for="confirmPassword">Confirm Password: </label>
-    <input type="password" formControlName="confirmPassword" />
-    @if (passwordsDoNotMatch) {
-    <p class="form-warning">Passwords do not match</p>
-    }
+  <button type="submit" class="submit-btn" [disabled]="signupForm.invalid">
+    Create Account
+  </button>
 
-    <button type="submit" [disabled]="signupForm.invalid">Register</button>
-    <button type="button" [routerLink]="['/signin']">Sign In</button>
+  <div class="signin-link">
+    Already have an account? <a [routerLink]="['/signin']">Sign In</a>
+  </div>
 
-    <!-- Give user a feedback to signup status: (success/fail) -->
-    @if (SignupStatusMessage()) {
-    <div [ngClass]="{ 'signup-error': SignupError(), 'signup-success': !SignupError() }">
-        {{ SignupStatusMessage() }}
-    </div>
-    }
+  <!-- Give user a feedback to signup status: (success/fail) -->
+  @if (SignupStatusMessage()) {
+  <div
+    class="status-message"
+    [ngClass]="{ 'error': SignupError(), 'success': !SignupError() }"
+  >
+    {{ SignupStatusMessage() }}
+  </div>
+  }
 </form>

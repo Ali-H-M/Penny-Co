@@ -1,26 +1,29 @@
-<h2>Sign In</h2>
+<div class="form-header">
+  <h2>Sign In</h2>
+</div>
 
 <form [formGroup]="signinForm" (ngSubmit)="Submit()">
-    <label for="email">Email:</label>
-    <input type="email" formControlName="email" />
-    @if (hasError('email')) {
-    <p class="form-warning">Email must be valid</p>
-    }
+  <label for="email">Email:</label>
+  <input type="email" formControlName="email" />
+  @if (hasError('email')) {
+  <p class="form-warning">Email must be valid</p>
+  }
 
-    <label for="password">Password:</label>
-    <input type="password" formControlName="password" />
-    <!-- @if (hasError('password')) {
+  <label for="password">Password:</label>
+  <input type="password" formControlName="password" />
+  <!-- @if (hasError('password')) {
     <p class="form-warning">Password is required</p>
     } -->
 
-    @if (SigninStatusMessage()) {
-    <p class="form-success">{{ SigninStatusMessage() }}</p>
-    }
+  @if (SigninStatusMessage()) {
+  <p class="form-success">{{ SigninStatusMessage() }}</p>
+  } @if (SigninError()) {
+  <p class="form-error">{{ SigninError() }}</p>
+  }
 
-    @if (SigninError()) {
-    <p class="form-error">{{ SigninError() }}</p>
-    }
+  <button type="submit" [disabled]="signinForm.invalid">Sign In</button>
 
-    <button type="submit" [disabled]="signinForm.invalid">Sign In</button>
-    <button type="button" [routerLink]="['/signup']">Sign Up</button>
+  <div class="signup-link">
+    Don't have an account? <a [routerLink]="['/signup']">Sign Up</a>
+  </div>
 </form>

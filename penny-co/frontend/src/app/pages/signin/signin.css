@@ -1,43 +1,122 @@
-h2 {
-  text-align: center;
-  font-size: 2rem;
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  margin: auto;
+.form-header h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  margin-top: 40px;
 }
 
 label {
-  margin-top: 10px;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #34495e;
 }
 
 input {
-  padding: 5px;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #ffca1a;
+  border: 2px solid #ffca1a;
+}
+
+/* Warning message styles */
+.form-warning {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+button[type='submit'] {
+  width: 100%;
+  padding: 12px;
+  background-color: #ffca1a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button[type='submit']:hover {
+  background-color: #ffdb67;
+}
+
+button[type='submit']:disabled {
+  background-color: #dfd8ab;
+  cursor: not-allowed;
+}
+
+/* Sign up link styles */
+.signup-link {
+  text-align: center;
+  margin-top: 15px;
+  color: #7f8c8d;
   font-size: 14px;
 }
 
-button {
-  margin-top: 15px;
-  padding: 8px;
+.signup-link a {
+  color: #d6a400;
+  font-weight: 500;
 }
 
-.form-warning {
-  color: rgb(210, 1, 1);
-  margin: 0;
+.signup-link a:hover {
+  text-decoration: underline;
 }
 
+/* Status message styles */
 .form-success {
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 20px;
   text-align: center;
-  color: green;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  font-size: 14px;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
 }
 
 .form-error {
-  color: red;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  form {
+    padding: 15px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  input,
+  button[type='submit'] {
+    padding: 8px;
+  }
 }

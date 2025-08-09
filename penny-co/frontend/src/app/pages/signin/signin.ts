@@ -46,7 +46,7 @@ export class Signin implements OnInit {
 
     // AuthService handles everything including navigation
     this.authService.signin(email, password).subscribe({
-      next: (response) => {
+      next: () => {
         this.SigninStatusMessage.set('Sign in successful!');
         this.isLoading.set(false);
         // Navigation is handled by AuthService
