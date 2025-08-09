@@ -5,9 +5,14 @@
 <form [formGroup]="signinForm" (ngSubmit)="Submit()">
   <label for="email">Email:</label>
   <input type="email" formControlName="email" />
-  @if (hasError('email')) {
-  <p class="form-warning">Email must be valid</p>
-  }
+  @if (signinForm.get('email')?.invalid && signinForm.get('email')?.touched) {
+  @if (signinForm.get('email')?.hasError('required')) {
+  <p class="form-warning">Email is required</p>
+  } @if (signinForm.get('email')?.hasError('email')) {
+  <p class="form-warning">Please enter a valid email</p>
+  } @if (signinForm.get('email')?.hasError('xssEmail')) {
+  <p class="form-warning">Email contains invalid characters</p>
+  } }
 
   <label for="password">Password:</label>
   <input type="password" formControlName="password" />

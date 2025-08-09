@@ -1,8 +1,14 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { emailValidator } from '../../validators/validators';
 
 @Component({
   selector: 'app-signin',
@@ -17,7 +23,7 @@ export class Signin implements OnInit {
   private authService = inject(AuthService);
 
   signinForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email, emailValidator]],
     password: ['', Validators.required],
   });
 
@@ -35,7 +41,7 @@ export class Signin implements OnInit {
   Submit() {
     this.SigninStatusMessage.set('');
     this.SigninError.set('');
-    
+
     if (!this.signinForm.valid) {
       this.SigninError.set('Please fill in all required fields correctly');
       return;
@@ -56,7 +62,7 @@ export class Signin implements OnInit {
           error.error?.message || 'Incorrect email or password'
         );
         this.isLoading.set(false);
-      }
+      },
     });
   }
 

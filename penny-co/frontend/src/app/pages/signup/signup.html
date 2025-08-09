@@ -4,15 +4,33 @@
 
 <form [formGroup]="signupForm" (ngSubmit)="Submit()">
   <label for="username">Username:</label>
-  <input type="text" formControlName="username" />
+  <input type="text" formControlName="username" maxlength="25" />
   @if (isUsernameInvalid) {
+
+  @if (signupForm.get('username')?.hasError('required')) {
   <p class="form-warning">Username is required</p>
+  }
+  @if (signupForm.get('username')?.hasError('maxlength')) {
+  <p class="form-warning">Username must be less than 25 characters</p>
+  }
+  @if (signupForm.get('username')?.hasError('invalidUsername')) {
+  <p class="form-warning">Only letters, numbers, and (-) are allowed</p>
+  }
   }
 
   <label for="email">Email: </label>
   <input type="email" formControlName="email" />
-  @if (isEmailInvalid) {
-  <p class="form-warning">Invalid email</p>
+  @if (signupForm.get('email')?.invalid && signupForm.get('email')?.touched) {
+
+  @if (signupForm.get('email')?.hasError('required')) {
+  <p class="form-warning">Email is required</p>
+  }
+  @if (signupForm.get('email')?.hasError('email')) {
+  <p class="form-warning">Please enter a valid email</p>
+  }
+  @if (signupForm.get('email')?.hasError('xssEmail')) {
+  <p class="form-warning">Email contains invalid characters</p>
+  }
   }
 
   <label for="password">Password: </label>
@@ -37,10 +55,7 @@
 
   <!-- Give user a feedback to signup status: (success/fail) -->
   @if (SignupStatusMessage()) {
-  <div
-    class="status-message"
-    [ngClass]="{ 'error': SignupError(), 'success': !SignupError() }"
-  >
+  <div class="status-message" [ngClass]="{ 'error': SignupError(), 'success': !SignupError() }">
     {{ SignupStatusMessage() }}
   </div>
   }
