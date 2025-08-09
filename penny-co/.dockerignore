@@ -1,0 +1,38 @@
+.angular
+
+# Ignore node modules (they will be installed inside Docker)
+node_modules
+
+# Ignore build output
+build
+
+# Git files
+.git
+.gitignore
+
+# VSCode settings and workspace files
+.vscode
+*.code-workspace
+
+# Environment files (keep out of Docker context to avoid secrets leaking)
+.env
+backend/.env
+frontend/.env
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Nx cache folders
+.nx
+.cache
+
+# Editor swap/temp files
+*~
+*.swp

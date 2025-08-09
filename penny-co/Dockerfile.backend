@@ -1,0 +1,17 @@
+FROM node:20
+
+WORKDIR /app
+
+# Copy dependency files first for caching
+COPY package*.json ./
+COPY nx.json tsconfig.base.json jest.preset.js ./
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Build backend only
+RUN npx nx build backend
+
+# Use Node to run the built backend
+CMD ["node", "dist/backend/main.js"]
