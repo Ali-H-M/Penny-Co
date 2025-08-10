@@ -1,6 +1,6 @@
 # Summary 
 
-This project is a monorepo setup using Nx to manage both the Frontend and Backend applications. The frontend is built with Angular and the backend with NestJS. The goal is to provide a basic authentication flow that includes user registration, login, and token-based authentication (JWT).
+This project uses a monorepo setup with Nx to manage both the Frontend (Angular v18) and Backend (NestJS v11). It features a secure authentication flow with a user signup page, a signin page, a protected dashboard, and JWT token-based authentication. The responsive frontend is linked to a NoSQL database and communicates seamlessly with the backend for real-time data handling.
 
 ## Tech Stack:
 
@@ -9,7 +9,7 @@ This project is a monorepo setup using Nx to manage both the Frontend and Backen
 * Monorepo Setup: Nx (manage multiple projects in a single repository)
 * Authentication: JWT-based authentication (secure token storage and validation)
 
-## Backend (NestJS) Process
+## ⚙️ Backend (NestJS) Process
 1. **User Registration/Signin**  
    - POST `/auth/signup` or `/auth/signin`  
    - The AuthService validates the user credentials and generates a JWT token upon successful authentication.  
@@ -29,7 +29,7 @@ This project is a monorepo setup using Nx to manage both the Frontend and Backen
    - `JwtStrategy` extracts token -> verifies signature -> checks expiry  
    - If valid, attaches user to `req.user`
 
-## Frontend (Angular) Process
+## 🖥️ Frontend (Angular) Process
 
 1. **Login**  
    - User submits signin form wich calls `AuthService.signin()`  
@@ -51,15 +51,19 @@ This project is a monorepo setup using Nx to manage both the Frontend and Backen
 
 ## Key Security Files:
 
-* `jwt.strategy.ts`: Validates JWT + attaches user 
+* `jwt.strategy.ts`: Validates JWT
 * `auth.interceptor.ts`: Injects token into requests 
 * `auth.guard.ts`: Protects Angular routes
 * `auth.service.ts`: Handles login/logout state
 * `validators.ts` : Filter user input
 
-## Environment Variables  
+## 🛑 Environment Variables  
 
 Ensure to set the following environment variables:
+
+Create .env file in the path: `penny-co/backend`   
+
+`.env.example` is created for refrence and docker use  
 
 * **Backend (.env):**
 - `MONGODB_URI`: URI for connecting to the MongoDB database cluster.
@@ -68,11 +72,13 @@ Ensure to set the following environment variables:
 * **Frontend (environment.ts):**
 - `environment.apiUrl`: The base URL for the backend API (e.g. http://localhost:3000/api).
 
-## Setup Instructions:
+## 🛠️ Setup Instructions:
 
 1. Clone the repository:
 
-```git clone <repo-url>```
+```git clone <repo-url>```   
+    
+```cd penny-co```
 
 2. Install dependencies for both frontend and backend using npx Nx:
 
@@ -88,13 +94,19 @@ Ensure to set the following environment variables:
 
 Now you can access the frontend at http://localhost:4200 and the backend at http://localhost:3000
 
-## Setup With Docker:
+## 🐳 Setup With Docker:
+
+1. Clone the repository:
+
+```git clone <repo-url>```   
+    
+```cd penny-co```
+
+2. Start Docker engine then:
 
 ```docker-compose up --build```
 
-## Optional Enhancements:
-
-* Upcomming Fetures:
+## Feutere Work:
 
 1. Forgot Password Feature
 
